@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import mobileenterprise.brandonward.myrecipies.domain.Recipe;
@@ -61,7 +62,13 @@ public class RecipeSvcSIOImpl implements IRecipeSvc {
 
     @Override
     public Recipe delete(Recipe recipe) {
-        return null;
+        recipes.remove(recipe.getId());
+        for (int i=(recipe.getId()); i<recipes.size();i++){
+            Recipe forRecipe = recipes.get(i);
+            forRecipe.setId(forRecipe.getId()-1);
+            recipes.set(i,forRecipe);
+        }
+        return recipe;
     }
 
 

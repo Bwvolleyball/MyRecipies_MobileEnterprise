@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class RecipesDetail extends ActionBarActivity {
     private EditText ingredients;
     private EditText servings;
     private EditText cookTime;
+    private Button confirmActionBtn;
+    private Button cancelActionBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +48,20 @@ public class RecipesDetail extends ActionBarActivity {
         ingredients = (EditText) findViewById(R.id.recipe_ingredients_detail);
         servings = (EditText) findViewById(R.id.recipe_servings_detail);
         cookTime = (EditText) findViewById(R.id.recipe_cooktime_detail);
+        confirmActionBtn = (Button) findViewById(R.id.submit_recipe_detail);
+        cancelActionBtn = (Button) findViewById(R.id.cancel_recipe_detail);
         if(action.equals(UPDATE)){
+            confirmActionBtn.setText("Update");
+            cancelActionBtn.setText("Delete");
             Toast.makeText(context, "id: "+ recipe.getId(), Toast.LENGTH_SHORT).show();
             name.setText(recipe.getName());
             instructions.setText(recipe.getInstructions());
             ingredients.setText(recipe.getIngredients());
             servings.setText(String.valueOf(recipe.getServings()));
             cookTime.setText(String.valueOf(recipe.getCookTime()));
+        } else if (action.equals(ADD)){
+            confirmActionBtn.setText("Submit");
+            cancelActionBtn.setText("Cancel");
         }
     }
 
@@ -95,8 +105,10 @@ public class RecipesDetail extends ActionBarActivity {
     }
 
     public void onCancel(View view){
-        Toast.makeText(context, "Recipe Cancelled", Toast.LENGTH_SHORT).show();
-        setResult(Activity.RESULT_CANCELED);
+        Intent intent = new Intent();
+        intent.putExtra("action", action);
+        intent.putExtra("recipe", recipe);
+        setResult(Activity.RESULT_CANCELED, intent);
         finish();
     }
 }
