@@ -97,8 +97,8 @@ public class MainRecipiesMaster extends ActionBarActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
-        Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
         if (resultCode == Activity.RESULT_OK) {
+            Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
             if (requestCode == ADD_CODE) {
                 recipeSvc.create(recipe);
             } else if (requestCode == UPDATE_CODE) {
@@ -110,6 +110,7 @@ public class MainRecipiesMaster extends ActionBarActivity {
             if (action.equals("add")){
                 Toast.makeText(context, "Recipe Cancelled", Toast.LENGTH_SHORT).show();
             } else if (action.equals("update")){
+                Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
                 Toast.makeText(context, "Recipe Deleted", Toast.LENGTH_SHORT).show();
                 recipeSvc.delete(recipe);
             }

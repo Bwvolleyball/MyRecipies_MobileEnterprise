@@ -65,6 +65,14 @@ public class RecipesDetail extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(Activity.CONTEXT_INCLUDE_CODE, intent);
+        finish();
+        //super.onBackPressed();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
