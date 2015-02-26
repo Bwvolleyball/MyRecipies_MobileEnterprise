@@ -68,6 +68,7 @@ public class RecipeSvcSIOImpl implements IRecipeSvc {
             forRecipe.setId(forRecipe.getId()-1);
             recipes.set(i,forRecipe);
         }
+        writeFile();
         return recipe;
     }
 
