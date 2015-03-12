@@ -1,6 +1,7 @@
 package mobileenterprise.brandonward.myrecipies.services;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,6 +55,11 @@ public class RecipeSvcSIOImpl implements IRecipeSvc {
     }
 
     @Override
+    public Cursor retrieveCursor() {
+        throw new UnsupportedOperationException("Cursors are not allowed in SIO.");
+    }
+
+    @Override
     public Recipe update(Recipe recipe) {
         recipes.set(recipe.getId(), recipe);
         writeFile();
@@ -72,6 +78,10 @@ public class RecipeSvcSIOImpl implements IRecipeSvc {
         return recipe;
     }
 
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException("SIO File does not need to 'close'.");
+    }
 
 
     private void readFile(){

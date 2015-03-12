@@ -1,5 +1,7 @@
 package mobileenterprise.brandonward.myrecipies.services;
 
+import android.database.Cursor;
+
 import java.util.List;
 
 import mobileenterprise.brandonward.myrecipies.domain.Recipe;
@@ -13,8 +15,12 @@ public interface IRecipeSvc {
 
     public List<Recipe> retrieve();
 
+    public Cursor retrieveCursor();
+
     public Recipe update(Recipe recipe);
 
     public Recipe delete(Recipe recipe);
+
+    public void close();
 
 }
