@@ -99,6 +99,9 @@ public class MainRecipiesMaster extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        Cursor cursor = recipeSvc.retrieveCursor();
+        adapter.changeCursor(cursor);
     }
 
 
