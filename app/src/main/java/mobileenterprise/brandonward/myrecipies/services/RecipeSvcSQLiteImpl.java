@@ -21,7 +21,8 @@ public class RecipeSvcSQLiteImpl extends SQLiteOpenHelper implements  IRecipeSvc
 
     private static final String TAG = "RecipeSvcSQLiteImpl";
     private static final String DB_NAME="recipes.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
+    private static final String DB_TABLE_NAME = "recipe";
     private static final String CREATE_DB="CREATE TABLE recipe " +
             "(_id integer primary key autoincrement, recipe_name text, instructions text, ingredients text, servings double, cook_time double)";//TODO: Add the rest of my columns.
     private static final String[] COLUMNS = {"_id", "recipe_name", "instructions", "ingredients", "servings", "cook_time"};
@@ -47,7 +48,7 @@ public class RecipeSvcSQLiteImpl extends SQLiteOpenHelper implements  IRecipeSvc
         values.put(COLUMNS[3], recipe.getIngredients());
         values.put(COLUMNS[4], recipe.getServings());
         values.put(COLUMNS[5], recipe.getCookTime());
-        int id =(int) db.insert("recipe", null, values);
+        int id =(int) db.insert(DB_TABLE_NAME, null, values);
         recipe.setId(id);
         return recipe;
     }
@@ -55,7 +56,7 @@ public class RecipeSvcSQLiteImpl extends SQLiteOpenHelper implements  IRecipeSvc
     @Override
     public List<Recipe> retrieve() {
         List<Recipe> recipes = new ArrayList<Recipe>();
-        Cursor cursor = db.query("recipe",COLUMNS,null,null,null,null,null,null);
+        Cursor cursor = db.query(DB_TABLE_NAME,COLUMNS,null,null,null,null,null,null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             Recipe recipe = getRecipe(cursor);
@@ -80,7 +81,7 @@ public class RecipeSvcSQLiteImpl extends SQLiteOpenHelper implements  IRecipeSvc
     @Override
     public Cursor retrieveCursor() {
         Log.i(TAG, "Entering retrieveCursor");
-        Cursor cursor = db.query("recipe",COLUMNS,null,null,null,null,null);
+        Cursor cursor = db.query(DB_TABLE_NAME,COLUMNS,null,null,null,null,null);
         cursor.moveToFirst();
         return cursor;
     }
@@ -93,13 +94,13 @@ public class RecipeSvcSQLiteImpl extends SQLiteOpenHelper implements  IRecipeSvc
         values.put(COLUMNS[3], recipe.getIngredients());
         values.put(COLUMNS[4], recipe.getServings());
         values.put(COLUMNS[5], recipe.getCookTime());
-        db.update("recipe",values, "_id = ?", new String[]{String.valueOf(recipe.getId())});
+        db.update(DB_TABLE_NAME,values, "_id = ?", new String[]{String.valueOf(recipe.getId())});
         return recipe;
     }
 
     @Override
     public Recipe delete(Recipe recipe) {
-        db.delete("recipe","_id "+"="+recipe.getId(), null);
+        db.delete(DB_TABLE_NAME,"_id = ?", new String[]{String.valueOf(recipe.getId())});
         return recipe;
     }
 
@@ -109,9 +110,9 @@ public class RecipeSvcSQLiteImpl extends SQLiteOpenHelper implements  IRecipeSvc
         Log.i(TAG,"Creating "+DB_NAME);
         database.execSQL(CREATE_DB);
         //Temporary Dummy Data
-        String sql = "INSERT INTO recipe (recipe_name, instructions, ingredients, servings, cook_time) VALUES ('Bacon', 'Test Data', 'Bacon', 1.0, 5.0)";
-        database.execSQL(sql);
-        Log.i(TAG, "Data Inserted");
+        //String sql = "INSERT INTO recipe (recipe_name, instructions, ingredients, servings, cook_time) VALUES ('Bacon', 'Test Data', 'Bacon', 1.0, 5.0)";
+        //database.execSQL(sql);
+        //Log.i(TAG, "Data Inserted");
     }
 
     @Override

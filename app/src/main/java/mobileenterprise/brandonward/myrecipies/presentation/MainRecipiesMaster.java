@@ -75,16 +75,18 @@ public class MainRecipiesMaster extends ActionBarActivity {
                 String ingredients = cursor.getString(cursor.getColumnIndexOrThrow("ingredients"));
                 double servings = cursor.getDouble(cursor.getColumnIndexOrThrow("servings"));
                 double cookTime = cursor.getDouble(cursor.getColumnIndexOrThrow("cook_time"));
+                int rId = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
                 Recipe recipe = new Recipe();
                 recipe.setName(name);
                 recipe.setIngredients(ingredients);
                 recipe.setInstructions(instructions);
                 recipe.setServings(servings);
                 recipe.setCookTime(cookTime);
+                recipe.setId(rId);
                 Intent intent = new Intent(context, RecipesDetail.class);
                 intent.putExtra("item", recipe);
                 intent.putExtra("action","update");
-                startActivity(intent);
+                startActivityForResult(intent, UPDATE_CODE);
             }
 
         });
@@ -99,7 +101,6 @@ public class MainRecipiesMaster extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         Cursor cursor = recipeSvc.retrieveCursor();
         adapter.changeCursor(cursor);
     }
