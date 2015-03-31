@@ -127,6 +127,10 @@ public class MainRecipiesMaster extends ActionBarActivity {
                 intent.putExtra("action", "add");
                 startActivityForResult(intent, ADD_CODE);
                 break;
+            case R.id.action_regis_activity:
+                intent = new Intent(this, RegisActivity.class);
+                startActivity(intent);
+                break;
             case R.id.action_settings:
                 break;
         }
