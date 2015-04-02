@@ -131,6 +131,10 @@ public class MainRecipiesMaster extends ActionBarActivity {
                 intent = new Intent(this, RegisActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.action_my_rest_activity:
+                intent = new Intent(this, MyRestService.class);
+                startActivity(intent);
+                break;
             case R.id.action_settings:
                 break;
         }

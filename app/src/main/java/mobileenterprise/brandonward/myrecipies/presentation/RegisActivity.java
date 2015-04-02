@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -26,9 +25,10 @@ import mobileenterprise.brandonward.myrecipies.R;
 
 public class RegisActivity extends ActionBarActivity {
 
-    ArrayAdapter adapter;
-    Context self = null;
-    ListView listView = null;
+    private ArrayAdapter adapter;
+    private Context self = null;
+    private ListView listView = null;
+    private static final String TAG = "RegisAsyncTask";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class RegisActivity extends ActionBarActivity {
 
         @Override//the web-service
         protected String doInBackground(String... params) {//String... is equivalent to saying String[] args
-            Log.i("RegisAsyncTask", "doInBackground");
+            Log.i(TAG, "doInBackground");
 
             StringBuffer result = new StringBuffer();
 
@@ -84,24 +84,25 @@ public class RegisActivity extends ActionBarActivity {
                 }
                 //Thread.sleep(1000);
             } catch(Exception e){
-                Log.e("RegisAsyncTask","EXCEPTION" + e.getMessage());
+                Log.e(TAG,"EXCEPTION" + e.getMessage());
             }
-            Log.i("RegisAsyncTask", "Returned String: "+ result.toString());
+            Log.i(TAG, "Returned String: "+ result.toString());
             return result.toString();
         }
 
         @Override//updates the UI
         protected void onPostExecute(String result){
-            Log.i("RegisAsyncTask", "OnPostExecute");
+
+            Log.i(TAG, "OnPostExecute");
             //Toast.makeText(getApplicationContext(),"Hello "+result, Toast.LENGTH_SHORT).show();
             try{
                 JSONArray jsonArray = new JSONArray(result);
                 final int length = jsonArray.length();
-                Log.i("RegisAsyncTask", "Number of entries " + length);
+                Log.i(TAG, "Number of entries " + length);
                 String[] regisPrograms = new String[length];
                 for (int i = 0; i < length; i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    Log.i("RegisAsyncTask", jsonObject.getString("id")+ " "+ jsonObject.getString("name"));
+                    Log.i(TAG, jsonObject.getString("id")+ " "+ jsonObject.getString("name"));
                     regisPrograms[i] = jsonObject.getString("name");
                 }
                 adapter = new ArrayAdapter<String>(self,android.R.layout.simple_list_item_1, regisPrograms);
@@ -110,7 +111,7 @@ public class RegisActivity extends ActionBarActivity {
             } catch(Exception e){
                 e.printStackTrace();
             }
-            Log.i("RegisAsyncTask", "Exiting onPostExecute");
+            Log.i(TAG, "Exiting onPostExecute");
         }
     }
 }
