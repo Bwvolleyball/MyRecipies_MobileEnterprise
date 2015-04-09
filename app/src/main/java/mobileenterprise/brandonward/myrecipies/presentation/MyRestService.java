@@ -22,6 +22,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import mobileenterprise.brandonward.myrecipies.R;
+import mobileenterprise.brandonward.myrecipies.domain.Recipe;
+import mobileenterprise.brandonward.myrecipies.services.IRestSvc;
+import mobileenterprise.brandonward.myrecipies.services.MyRestServiceImpl;
 
 public class MyRestService extends ActionBarActivity {
 
@@ -66,28 +69,9 @@ public class MyRestService extends ActionBarActivity {
 
         @Override//the web-service
         protected String doInBackground(String... params) {//String... is equivalent to saying String[] args
-            Log.i(TAG, "doInBackground");
-
-            StringBuffer result = new StringBuffer();
-
-            HttpClient client = new DefaultHttpClient();
-            String url = "http://10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy";
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Accept", "application/json");
-            try {
-                HttpResponse response = client.execute(httpGet);
-                InputStream inputStream = response.getEntity().getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String s;
-                while((s=reader.readLine()) !=null){
-                    result.append(s);
-                }
-                //Thread.sleep(1000);
-            } catch(Exception e){
-                Log.e(TAG,"EXCEPTION" + e.getMessage());
-            }
-            Log.i(TAG, "Returned String: "+ result.toString());
-            return result.toString();
+            IRestSvc impl = new MyRestServiceImpl();
+            return impl.retrieve();
+            //return impl.create(new Recipe());
         }
 
         @Override//updates the UI
@@ -102,8 +86,8 @@ public class MyRestService extends ActionBarActivity {
                 String[] regisPrograms = new String[length];
                 for (int i = 0; i < length; i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    Log.i(TAG, jsonObject.getString("id")+ " "+ jsonObject.getString("namee"));
-                    regisPrograms[i] = jsonObject.getString("namee");
+                    Log.i(TAG, jsonObject.getString("id")+ " "+ jsonObject.getString("recipeName"));
+                    regisPrograms[i] = jsonObject.getString("recipeName");
                 }
                 adapter = new ArrayAdapter<String>(self,android.R.layout.simple_list_item_1, regisPrograms);
                 listView.setAdapter(adapter);
