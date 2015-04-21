@@ -82,8 +82,9 @@ public class MyRestServiceImpl implements IRestSvc{
     @Override
     public String update(Recipe recipe) {
         String result = "";
+        Log.i(TAG, "Entering Update");
         HttpClient client = new DefaultHttpClient();
-        String url = "http:/10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy/"+recipe.getId();
+        String url = "http://10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy/"+recipe.getId();
         HttpPut httpPut = new HttpPut(url);
         try{
             JSONObject json = new JSONObject();
@@ -99,21 +100,26 @@ public class MyRestServiceImpl implements IRestSvc{
             HttpResponse response = client.execute(httpPut);
         } catch (Exception e){
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
+        Log.i(TAG, "Exiting Update");
         return result;
     }
 
     @Override
     public String delete(int id) {
+        Log.i(TAG, "Entering Delete");
         String result = "";
         HttpClient client = new DefaultHttpClient();
-        String url = "http:/10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy/"+ id;
+        String url = "http://10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy/"+ id;
         HttpDelete delete = new HttpDelete(url);
         try{
             client.execute(delete);
         } catch (Exception e){
             Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
+        Log.i(TAG, "Exiting Delete");
         return result;
     }
 }
