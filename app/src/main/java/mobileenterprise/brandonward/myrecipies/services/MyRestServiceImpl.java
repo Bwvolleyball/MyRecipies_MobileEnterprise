@@ -4,8 +4,10 @@ import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
@@ -60,18 +62,18 @@ public class MyRestServiceImpl implements IRestSvc{
         HttpPost httpPost = new HttpPost(url);
         try{
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("recipeName","Chocolate");
-            jsonObject.put("ingredients","cocoa powder");
-            jsonObject.put("instructions", "cook it good");
-            jsonObject.put("cookTime",5);
-            jsonObject.put("servings",1);
+            jsonObject.put("recipeName",recipe.getName());
+            jsonObject.put("ingredients",recipe.getIngredients());
+            jsonObject.put("instructions", recipe.getInstructions());
+            jsonObject.put("cookTime",recipe.getCookTime());
+            jsonObject.put("servings",recipe.getServings());
             StringEntity entity = new StringEntity(jsonObject.toString());
             entity.setContentType("Application/json");
             httpPost.setEntity(entity);
             HttpResponse response = client.execute(httpPost);
 
         } catch(Exception e){
-
+            Log.e(TAG, "EXCEPTION: "+ e.getMessage());
         }
         Log.i(TAG,"Exiting create");
         return result;
@@ -79,11 +81,39 @@ public class MyRestServiceImpl implements IRestSvc{
 
     @Override
     public String update(Recipe recipe) {
-        return null;
+        String result = "";
+        HttpClient client = new DefaultHttpClient();
+        String url = "http:/10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy/"+recipe.getId();
+        HttpPut httpPut = new HttpPut(url);
+        try{
+            JSONObject json = new JSONObject();
+            json.put("id", recipe.getId());
+            json.put("recipeName",recipe.getName());
+            json.put("ingredients",recipe.getIngredients());
+            json.put("instructions", recipe.getInstructions());
+            json.put("cookTime",recipe.getCookTime());
+            json.put("servings",recipe.getServings());
+            StringEntity se = new StringEntity(json.toString());
+            se.setContentType("application/json");
+            httpPut.setEntity(se);
+            HttpResponse response = client.execute(httpPut);
+        } catch (Exception e){
+            Log.e(TAG, e.getMessage());
+        }
+        return result;
     }
 
     @Override
     public String delete(int id) {
-        return null;
+        String result = "";
+        HttpClient client = new DefaultHttpClient();
+        String url = "http:/10.0.2.2:8080/MobileEnterpriseWebService/webresources/service.dummy/"+ id;
+        HttpDelete delete = new HttpDelete(url);
+        try{
+            client.execute(delete);
+        } catch (Exception e){
+            Log.e(TAG, e.getMessage());
+        }
+        return result;
     }
 }

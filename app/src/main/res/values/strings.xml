@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Recipies</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_recipes_detail">RecipesDetail</string>
+    <string name="action_add">Add...</string>
+    <string name="title_activity_regis">RegisActivity</string>
+    <string name="action_regis_activity">Regis Data</string>
+    <string name="title_activity_my_rest_service">MyRestService</string>
+    <string name="action_rest_title">my REST</string>
+    <string name="rest_add_string">Add...</string>
+
+</resources>
